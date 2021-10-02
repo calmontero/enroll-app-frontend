@@ -2,8 +2,17 @@ import React, { useState, useEffect } from "react";
 import ProgramsCard from "../ProgramsCard/ProgramsCard";
 import Typography from '@material-ui/core/Typography';
 import { BASE_URL } from "../../constraints";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+    custom: {
+      color: "#F3E7E4",
+      fontWeight: "bold"
+    }
+  });
 
 function ProgramsContainer() {
+    const classes = useStyles();
     const [programs, setPrograms] = useState([]);
 
     useEffect(() => {
@@ -19,7 +28,7 @@ function ProgramsContainer() {
       
       return (
         <div className="programs-container" >
-            <Typography variant="h2" component="h2" gutterBottom color= "primary" align="center">
+            <Typography variant="h2" component="h2" gutterBottom className={classes.custom} align="center">
                 Programs
             </Typography>
             {

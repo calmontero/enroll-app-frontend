@@ -2,10 +2,13 @@ import React from 'react';
 import { Navbar, Nav, Form, Button, ButtonGroup } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from "../../constraints";
 
-function Navigation({ onLogout }) {
+function Navigation({ user, onLogout }) {
   function handleLogout() {
-
+    fetch(BASE_URL + "/logout", {
+      method: "DELETE",
+    }).then(() => onLogout());
   }
 
   return (
@@ -26,8 +29,12 @@ function Navigation({ onLogout }) {
     </Navbar.Collapse>
     <Form inline className="mx-3">
       <ButtonGroup>
+      {user ? (
+        <Button variant="secondary" onClick={handleLogout} to="/login">Logout</Button>
+      ) : (
         <Button variant="secondary" as={Link} to="/login">Login</Button>
-        <Button variant="secondary" onClick={handleLogout} to="/signup">Signup</Button>
+      )}
+        <Button variant="secondary" as={Link} to="/signup">Signup</Button>
       </ButtonGroup> 
     </Form>
     </Navbar>

@@ -1,11 +1,16 @@
 import React from "react";
-//import { BASE_URL } from "../../constraints";
 
-function Header() {
+function Header({ user }) {
     return (
-        <div className="main-container" >
-
-        </div>
+        <header>
+            {user ? (
+            <div>
+                <p>Welcome {user.username}</p>
+            </div>
+            ) : (
+            <p>Press click in Login</p>
+            )}
+        </header>
     );
 }
 
