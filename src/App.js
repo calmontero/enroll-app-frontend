@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp/SignUp";
 import Header from "./components/Header/Header";
 import ProgramsContainer from "./components/ProgramsContainer/ProgramsContainer";
 import { BASE_URL } from "./constraints/index";
+import PeopleContainer from "./components/PeopleContainer/PeopleContainer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,10 +41,13 @@ function App() {
           <Login onLogin={handleLogin} />
         </Route>
         <Route exact path="/signup">
-          <SignUp  />
+          <SignUp onLogin={handleLogin} />
         </Route>
         <Route exact path="/programs">
           <ProgramsContainer />
+        </Route>
+        <Route exact path="/people">
+          <PeopleContainer user={user} />
         </Route>
         <Route exact path="/programs/:id">
           

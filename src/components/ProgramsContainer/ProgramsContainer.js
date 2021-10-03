@@ -16,12 +16,7 @@ function ProgramsContainer() {
     const [programs, setPrograms] = useState([]);
 
     useEffect(() => {
-        fetch(BASE_URL + "/programs", {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-                }
-            })
+        fetch(BASE_URL + "/programs")
         .then((response) => response.json())
         .then((programsData) => setPrograms(programsData));
     }, []);

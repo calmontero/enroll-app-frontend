@@ -8,7 +8,7 @@ function Navigation({ user, onLogout }) {
   function handleLogout() {
     fetch(BASE_URL + "/logout", {
       method: "DELETE",
-    }).then(() => onLogout());
+    }).then((r) => onLogout());
   }
 
   return (
@@ -22,8 +22,8 @@ function Navigation({ user, onLogout }) {
         <LinkContainer to="/programs">
           <Nav.Link>Programs</Nav.Link>
         </LinkContainer>
-        <LinkContainer to="/">
-          <Nav.Link>Enroll</Nav.Link>
+        <LinkContainer to="/people">
+          <Nav.Link>Information</Nav.Link>
         </LinkContainer>
       </Nav>
     </Navbar.Collapse>

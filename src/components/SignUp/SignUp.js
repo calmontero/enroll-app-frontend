@@ -14,7 +14,6 @@ function SignUp({ onLogin }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(password);
         setErrors([]);
         setIsLoading(true);
         fetch(BASE_URL + "/signup", {
@@ -54,16 +53,6 @@ function SignUp({ onLogin }) {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Last name</label>
-                        <input type="text" className="form-control" placeholder="Last name" />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Email address</label>
-                        <input type="email" className="form-control" placeholder="Enter email" />
                     </div>
 
                     <div className="form-group">

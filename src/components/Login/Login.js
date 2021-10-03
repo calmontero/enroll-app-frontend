@@ -14,8 +14,6 @@ function Login({ onLogin }) {
     function handleSubmit(e) {
       e.preventDefault();
       setIsLoading(true);
-      console.log(username);
-      console.log(password);
       fetch(BASE_URL + "/login", {
         method: "POST",
         headers: {
@@ -29,7 +27,6 @@ function Login({ onLogin }) {
             history.push('/');
         } else {
             r.json().then((err) => setErrors(err.errors));
-            console.log(errors);
         }
       });
     }
