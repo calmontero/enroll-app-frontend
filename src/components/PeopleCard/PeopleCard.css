@@ -1,0 +1,28 @@
+.profile-img {
+    height: 100px;
+    width: 100px;
+}
+
+.people-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.flex-child-p {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+}  
+
+.flex-child-p:first-child {
+    margin-right: 20px;
+} 
+
+.flex-child1-p {
+    width: 200px;
+    left: 200px;
+    position: absolute;
+}

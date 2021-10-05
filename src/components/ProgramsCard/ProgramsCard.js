@@ -10,6 +10,11 @@ import Box from '@material-ui/core/Box';
 function ProgramsCard({ programs }) {
     const {id, name, summary, duration, rating, image_url} = programs;
 
+    function handleClick(e) {
+        localStorage.clear();
+        localStorage.setItem('program_id', id);
+    }
+
     return (
         <div className= "program-card">
             <div className="flex-child magenta" key={id} >
@@ -34,8 +39,8 @@ function ProgramsCard({ programs }) {
                 <br/>
                 <h5><ImClock /> Approx. {duration} to complete</h5>
                 <h5><ImSphere /> 100% online</h5>
-                <Link to={`/programs/${id}`}>
-                    <Button type="submit"variant="outlined" color="primary">Enroll</Button>
+                <Link to={`/people`}>
+                    <Button type="submit"variant="outlined" color="primary" onClick={handleClick}>Enroll</Button>
                 </Link>
             </div>
         </div>

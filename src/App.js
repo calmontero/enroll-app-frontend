@@ -49,9 +49,6 @@ function App() {
         <Route exact path="/people">
           <PeopleContainer user={user} />
         </Route>
-        <Route exact path="/programs/:id">
-          
-        </Route>
         {/* keep the "*" path at the end */}
         <Route path="*">
           <h1>404 Not Found :c</h1>

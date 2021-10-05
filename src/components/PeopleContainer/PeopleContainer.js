@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 //import { BASE_URL } from "../../constraints";
 import PeopleForm from "../PeopleForm/PeopleForm";
 import PeopleCard from "../PeopleCard/PeopleCard";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/core/styles";
+import EnrollForm from "../EnrollForm/EnrollForm";
 
 const useStyles = makeStyles({
   custom: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles({
 
 function PeopleContainer({ user }) {
   const classes = useStyles();
-
-
+  const program_id = localStorage.getItem('program_id');
+  console.log(user);
 
     return (
       <div className="people-container">
@@ -23,6 +24,12 @@ function PeopleContainer({ user }) {
           <div> 
             <PeopleForm user={user} />
             <PeopleCard user={user} />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <EnrollForm id={program_id}  />
           </div>
           
         ) : (  
