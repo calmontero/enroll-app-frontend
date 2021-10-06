@@ -13,6 +13,7 @@ function ProgramsCard({ programs }) {
     function handleClick(e) {
         localStorage.clear();
         localStorage.setItem('program_id', id);
+        localStorage.setItem('name', name);
     }
 
     return (

@@ -1,32 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BASE_URL } from "../../constraints";
 import Button from '@material-ui/core/Button';
+import Error from "../../styles/Error";
 
-function EnrollForm({ id }) {
-
-    const initialState = {
-        progress: 0,
-        program_id: id,
-        person_id: 0
-    };
-    const [programs, setPrograms] = useState([]);
-    const [enroll, setEnroll] = useState([initialState]);
-   
-    useEffect(() => {
-        fetch(BASE_URL + `/programs/${id}`)
-        .then((response) => response.json())
-        .then((programData) => setPrograms(programData));
-    }, []);
+function EnrollForm({ program, people }) {
+    const [errors, setErrors] = useState([]);
 
     function handleSubmit(e) {
-        
+        e.preventDefault();
+        setErrors([]);
+        fetch(BASE_URL + "/enroll_studies", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            progress: 0,
+            program_id: program.id,
+            person_id: people.id
+          }),
+        }).then((r) => {
+          if (r.ok) {
+            //r.json().then((user) => onLogin(user));
+            //history.push('/');
+          } else {
+            r.json().then((err) => setErrors(err.errors));
+          }
+        });
     }
 
     return (
         <div className="enroll-container" >
-            <h5>Program: {programs.name} </h5>
-
+            <h6>Program: {program.name} </h6>
+            <h6>Progress: {people.id} </h6>
             <Button type="submit"variant="outlined" color="secondary" onClick={handleSubmit}>Enroll</Button>
+            <p className="forgot-password text-right">
+                        {errors && errors.map((err) => (
+                            <Error key={err}>{err}</Error>
+                        ))}
+              </p>   
         </div>
     );
 }

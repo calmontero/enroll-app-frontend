@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-//import { BASE_URL } from "../../constraints";
+import React, { useState, useEffect } from "react";
+import { BASE_URL } from "../../constraints";
 import PeopleForm from "../PeopleForm/PeopleForm";
 import PeopleCard from "../PeopleCard/PeopleCard";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/core/styles";
-import EnrollForm from "../EnrollForm/EnrollForm";
+import EnrollContainer from "../EnrollContainer/EnrollContainer";
 
 const useStyles = makeStyles({
   custom: {
@@ -15,21 +15,25 @@ const useStyles = makeStyles({
 
 function PeopleContainer({ user }) {
   const classes = useStyles();
-  const program_id = localStorage.getItem('program_id');
-  console.log(user);
+  const [people, setPeople] = useState([]);
+  const [program, setProgram] = useState({
+    programId: localStorage.getItem('program_id'),
+    programName: localStorage.getItem('name')
+  }) ;
+  
+  useEffect(() => {
+    fetch(BASE_URL + `/users/${user.id}/people`)
+    .then((response) => response.json())
+    .then((peopleData) => setPeople(peopleData));
+  }, []);
 
     return (
       <div className="people-container">
         {user ? (
           <div> 
-            <PeopleForm user={user} />
-            <PeopleCard user={user} />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <EnrollForm id={program_id}  />
+            {people ? null : <PeopleForm user={user} />}
+            {people ? <PeopleCard people={people} setPeople={setPeople} user={user} /> : null}
+            {people ? <EnrollContainer program={program} people={people} user={user} /> : null}
           </div>
           
         ) : (  

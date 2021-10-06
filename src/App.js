@@ -27,6 +27,7 @@ function App() {
   }
 
   function handleLogout() {
+    localStorage.clear();
     setUser(null);
   }
   return (

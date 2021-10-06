@@ -4,7 +4,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Error from "../../styles/Error";
 
-function PeopleForm({user}) {
+function PeopleForm({ user }) {
     const initialState = {
         first_name: '',
         last_name: '',
@@ -12,7 +12,7 @@ function PeopleForm({user}) {
         state: '',
         city: '',
         phone: '',
-        user_id: ''
+        user_id: user.id
     };
 
     const[people, setPeople] = useState(initialState);
@@ -49,7 +49,7 @@ function PeopleForm({user}) {
 
     return (
         <div className="people-form">
-        <h2>Fill form</h2>
+        <h3>You must to fill the student information</h3>
         <form  noValidate autoComplete="on" onSubmit={handleSubmit} >
               <Input 
               type="text"
