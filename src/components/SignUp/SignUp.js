@@ -8,6 +8,8 @@ function SignUp({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
@@ -29,13 +31,34 @@ function SignUp({ onLogin }) {
         }).then((r) => {
           setIsLoading(false);
           if (r.ok) {
-            r.json().then((user) => onLogin(user));
-            history.push('/');
+            r.json().then((user) => createPeople(user));
           } else {
             r.json().then((err) => setErrors(err.errors));
           }
         });
-      }
+    }
+
+    function createPeople(user) {
+      setErrors([]);
+      fetch(BASE_URL + `/users/${user.id}/people`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          user_id: user.id,
+        }),
+      }).then((r) => {
+        if (r.ok) {
+          r.json().then((people) => onLogin(user));
+          history.push('/');
+        } else {
+          r.json().then((err) => setErrors(err.errors));
+        }
+      });
+  }
 
     return (
         <div className="auth-wrapper">
@@ -52,6 +75,30 @@ function SignUp({ onLogin }) {
                             autoComplete="off"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>First name</label>
+                        <input type="text" 
+                            className="form-control" 
+                            placeholder="First name"
+                            id="firstName"
+                            autoComplete="off"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Last name</label>
+                        <input type="text" 
+                            className="form-control" 
+                            placeholder="Last name"
+                            id="lastName"
+                            autoComplete="off"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
 
@@ -81,7 +128,7 @@ function SignUp({ onLogin }) {
 
                     <button type="submit" className="btn btn-primary btn-block">{isLoading ? "Loading..." : "Sign Up"}</button>
                     <p className="forgot-password text-right">
-                        {errors.map((err) => (
+                        {errors && errors.map((err) => (
                             <Error key={err}>{err}</Error>
                         ))}
                     </p>

@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { BASE_URL } from "../../constraints";
 
-function Header({ user }) {
+function Header({ user, onSelectPeople }) {
+    useEffect(() => {
+        fetch(BASE_URL + `/users/${user.id}/people`)
+        .then((response) => response.json())
+        .then((peopleData) => onSelectPeople(peopleData));
+    }, []);
+
     return (
         <header>
             {user ? (

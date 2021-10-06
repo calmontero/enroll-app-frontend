@@ -3,33 +3,40 @@ import "./PeopleCard.css";
 import { BASE_URL } from "../../constraints";
 import Button from '@material-ui/core/Button';
 import Error from "../../styles/Error";
-import TextField, { Input, InputLabel } from "@material-ui/core";
+import { Input, InputLabel } from "@material-ui/core";
 
-function PeopleCard({ people, setPeople, user }) {
+function PeopleCard({ people, user, onUpdatePeople }) {
     const [errors, setErrors] = useState([]);
+    const [firstName, setFirstName] = useState(people.first_name);
+    const [lastName, setLastName] = useState(people.last_name);
+    const [email, setEmail] = useState(people.email);
+    const [phone, setPhone] = useState(people.phone);
+    const [state, setState] = useState(people.state);
+    const [city, setCity] = useState(people.city);
     
-    function handleChange(e) {
-        const updatedValue = {...people}
-        updatedValue[e.target.name] = e.target.value
-        setPeople(updatedValue)
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         fetch(BASE_URL + `/users/${user.id}/people/${people.id}`, {
             method: "PATCH",
-            body: JSON.stringify(people),
             headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            }.then((r) => {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                state: state,
+                city: city,
+                phone: phone, 
+            }),
+            })
+            .then((r) => {
                 if (r.ok) {
-                    
+                    r.json().then((peopleData) => onUpdatePeople(peopleData));
                 } else {
                   r.json().then((err) => setErrors(err.errors));
                 }
               })
-        });
     }
     
     return (
@@ -48,17 +55,17 @@ function PeopleCard({ people, setPeople, user }) {
                 <form  noValidate autoComplete="on" onSubmit={handleSubmit} >
                     
                     <InputLabel>First name:</InputLabel>
-                    <Input type="text" name="first_name" placeholder={people.first_name} value={people.first_name} onChange={handleChange}/>
+                    <Input type="text" name="first_name"  placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
                     <InputLabel>Last name:</InputLabel>
-                    <Input type="text" name="last_name" placeholder={people.last_name} value={people.last_name} onChange={handleChange}/>
+                    <Input type="text" name="last_name" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
                     <InputLabel>Email:</InputLabel>
-                    <Input type="text" name="email" placeholder={people.email} value={people.email} onChange={handleChange} />
+                    <Input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <InputLabel>State:</InputLabel>
-                    <Input type="text" name="state" placeholder={people.state} value={people.state} onChange={handleChange}   />
+                    <Input type="text" name="state" placeholder="State" value={state} onChange={(e) => setState(e.target.value)}   />
                     <InputLabel>City: </InputLabel>
-                    <Input type="text" name="city" placeholder={people.city} value={people.city} onChange={handleChange}  />
+                    <Input type="text" name="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)}  />
                     <InputLabel>Phone:</InputLabel>
-                    <Input type="text" name="phone" placeholder={people.phone} value={people.phone} onChange={handleChange} />
+                    <Input type="text" name="phone" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     <Button type="submit"variant="outlined" color="secondary" >Update</Button>
                     <p className="forgot-password text-right">
                         {errors.map((err) => (

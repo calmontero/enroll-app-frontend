@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Navigation from "./components/NavigationBar/NavigationBar";
 import Home from "./components/Home/Home";
@@ -8,19 +8,22 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import Header from "./components/Header/Header";
 import ProgramsContainer from "./components/ProgramsContainer/ProgramsContainer";
-import { BASE_URL } from "./constraints/index";
+//import { BASE_URL } from "./constraints/index";
 import PeopleContainer from "./components/PeopleContainer/PeopleContainer";
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  custom: {
+    color: "#F3E7E4",
+    fontWeight: "bold"
+  }
+});
 
 function App() {
+  const classes = useStyles();
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    fetch(BASE_URL + "/me").then((response) => {
-      if (response.ok) {
-        response.json().then((user) => setUser(user));
-      }
-    });
-  }, []);
+  const [people, setPeople] = useState([]);
 
   function handleLogin(user) {
     setUser(user);
@@ -30,10 +33,19 @@ function App() {
     localStorage.clear();
     setUser(null);
   }
+
+  function handlePeople(peopleData) {
+    setPeople(peopleData);
+  }
+
+  function handleUpdatePeople(peopleData) {
+    setPeople(peopleData);
+  }
+
   return (
     <main className="app" >
       <Navigation user={user} onLogout={handleLogout} />
-      <Header user={user} />
+      {user ? <Header user={user} onSelectPeople={handlePeople} /> : null}
       <Switch>
         <Route exact path="/" >
           <Home />
@@ -48,7 +60,10 @@ function App() {
           <ProgramsContainer />
         </Route>
         <Route exact path="/people">
-          <PeopleContainer user={user} />
+        {user ? <PeopleContainer user={user} people={people} onUpdatePeople={handleUpdatePeople} /> : 
+          <Typography variant="h4" component="h4" gutterBottom align="center" className={classes.custom}>
+            You must have to Login
+          </Typography>}
         </Route>
         {/* keep the "*" path at the end */}
         <Route path="*">

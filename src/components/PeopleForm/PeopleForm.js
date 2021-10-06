@@ -24,6 +24,7 @@ function PeopleForm({ user }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(people);
         setErrors([]);
         fetch(BASE_URL + "/people", {
           method: "POST",
