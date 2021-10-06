@@ -32,7 +32,6 @@ function EnrollForm({ program, people, onAddEnroll }) {
     return (
         <div className="enroll-container" >
             <h6>Program: {program.programName} </h6>
-            <h6>Progress: 0 </h6>
             <Button type="submit"variant="outlined" color="secondary" onClick={handleSubmit}>Enroll</Button>
             <p className="forgot-password text-right">
                         {errors && errors.map((err) => (
