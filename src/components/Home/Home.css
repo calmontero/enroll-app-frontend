@@ -5,3 +5,9 @@ div.home-container  {
 body {
     background-color: #E6E6FA;
 }
+
+.font-link {
+    font-family: 'Josefin Sans', cursive;
+    font-size: 40px;
+    color: #FFFFFF;
+  }

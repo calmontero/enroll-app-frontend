@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { BASE_URL } from "../../constraints";
 import Error from "../../styles/Error";
 import "../../styles/index.css";
+import { Form } from "react-advanced-form";
 
 function Login({ onLogin }) {
     const [username, setUsername] = useState("");
@@ -34,7 +35,7 @@ function Login({ onLogin }) {
     return (
         <div className="auth-wrapper">
             <div className="auth-inner">
-                <form onSubmit={handleSubmit} >
+                <Form  >
                     <h3>Sign In</h3>
                     
                     <div className="form-group">
@@ -45,6 +46,7 @@ function Login({ onLogin }) {
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            required
                         />
                     </div>
 
@@ -56,16 +58,17 @@ function Login({ onLogin }) {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary btn-block">{isLoading ? "Loading..." : "Submit"}</button>
+                    <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit} >{isLoading ? "Loading..." : "Submit"}</button>
                     <p className="forgot-password text-right">
                     {errors.map((err) => (
                         <Error key={err}>{err}</Error>
                     ))}
                     </p>
-                </form>
+                </Form>
             </div>
         </div>
     );

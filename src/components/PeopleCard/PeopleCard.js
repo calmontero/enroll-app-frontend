@@ -4,6 +4,7 @@ import { BASE_URL } from "../../constraints";
 import Button from '@material-ui/core/Button';
 import Error from "../../styles/Error";
 import { Input, InputLabel } from "@material-ui/core";
+import validator from 'validator';
 
 function PeopleCard({ people, user, onUpdatePeople }) {
     const [errors, setErrors] = useState([]);
@@ -13,7 +14,37 @@ function PeopleCard({ people, user, onUpdatePeople }) {
     const [phone, setPhone] = useState(people.phone);
     const [state, setState] = useState(people.state);
     const [city, setCity] = useState(people.city);
-    
+    const [emailError, setEmailError] = useState('');
+
+    function validateEmail(e) {
+        setEmail(e.target.value);
+        if (validator.isEmail(email)) {
+            setEmailError('');
+        } else {
+            setEmailError('Enter valid Email!');
+        }
+    }
+
+    const handleInput = (e) => {
+        const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+        setPhone(formattedPhoneNumber);
+    };
+
+    function formatPhoneNumber(value) {
+        if (!value) return value;
+        const phoneNumber = value.replace(/[^\d]/g, "");
+
+        const phoneNumberLength = phoneNumber.length;
+        if (phoneNumberLength < 4) return phoneNumber;
+        if (phoneNumberLength < 7) {
+          return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+        }
+        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+          3,
+          6
+        )}-${phoneNumber.slice(6, 10)}`;
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         fetch(BASE_URL + `/users/${user.id}/people/${people.id}`, {
@@ -59,13 +90,16 @@ function PeopleCard({ people, user, onUpdatePeople }) {
                     <InputLabel>Last name:</InputLabel>
                     <Input type="text" name="last_name" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
                     <InputLabel>Email:</InputLabel>
-                    <Input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input type="text" name="email" placeholder="Email" value={email} onChange={validateEmail} />
+                    <br />
+                    <span style={{fontWeight: 'bold', color: 'red', }}>{emailError}</span>
                     <InputLabel>State:</InputLabel>
                     <Input type="text" name="state" placeholder="State" value={state} onChange={(e) => setState(e.target.value)}   />
                     <InputLabel>City: </InputLabel>
                     <Input type="text" name="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)}  />
                     <InputLabel>Phone:</InputLabel>
-                    <Input type="text" name="phone" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <Input type="text" name="phone" placeholder="Phone" value={phone} onChange={(e) => handleInput(e)} />
+                    <br />
                     <Button type="submit"variant="outlined" color="secondary" >Update</Button>
                     <p className="forgot-password text-right">
                         {errors.map((err) => (

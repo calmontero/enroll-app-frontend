@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { BASE_URL } from "../../constraints";
 import Error from "../../styles/Error";
 import "../../styles/index.css";
+//import { Form } from "react-advanced-form";
 
 function SignUp({ onLogin }) {
     const [username, setUsername] = useState("");
@@ -63,9 +64,9 @@ function SignUp({ onLogin }) {
     return (
         <div className="auth-wrapper">
             <div className="auth-inner"> 
-                <form onSubmit={handleSubmit}>
+                <form >
                     <h3>Sign Up</h3>
-
+                    
                     <div className="form-group">
                         <label>Username</label>
                         <input type="text" 
@@ -126,7 +127,8 @@ function SignUp({ onLogin }) {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary btn-block">{isLoading ? "Loading..." : "Sign Up"}</button>
+                    <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit} >{isLoading ? "Loading..." : "Sign Up"}</button>
+                    <h6>* All fields must be filled</h6>
                     <p className="forgot-password text-right">
                         {errors && errors.map((err) => (
                             <Error key={err}>{err}</Error>
