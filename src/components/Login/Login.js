@@ -11,6 +11,7 @@ function Login({ onLogin }) {
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
+    localStorage.clear();
   
     function handleSubmit(e) {
       e.preventDefault();
