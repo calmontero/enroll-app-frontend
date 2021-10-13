@@ -8,7 +8,6 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import Header from "./components/Header/Header";
 import ProgramsContainer from "./components/ProgramsContainer/ProgramsContainer";
-//import { BASE_URL } from "./constraints/index";
 import PeopleContainer from "./components/PeopleContainer/PeopleContainer";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/core/styles";
